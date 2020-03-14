@@ -1,0 +1,30 @@
+<?php include ADMIN_COMMON_PATH.'/header.html';?>
+<div class="layui-container fly-marginTop fly-user-main">
+    <?php include ADMIN_COMMON_PATH.'/setting-nav.html';?>
+    <div class="fly-panel fly-panel-user" pad20>
+        <div class="layui-tab layui-tab-brief" lay-filter="repair">
+            <ul class="layui-tab-title" id="LAY_mine">
+                <li class="layui-this" lay-id="info">数据修复</li>
+            </ul>
+            <div class="layui-tab-content" style="padding: 20px 0;">
+                <div class="layui-form layui-form-pane layui-tab-item layui-show">
+                    <div class="layui-form-item layui-show">
+						<blockquote class="layui-elem-quote">
+							<p> 注意事项： </p>
+							<p> 如果[商品管理]-[配置中心]列表中出现了"数据接口请求异常"，<button lay-submit class="layui-btn" lay-filter="repair">点击修复</button></p>
+						</blockquote>
+						<blockquote class="layui-elem-quote">
+							<p> 注意事项： </p>
+							<p> 如果[商品管理]-[卡密管理]列表中出现了"数据接口请求异常"，<button lay-submit class="layui-btn" lay-filter="repaircard">点击修复</button></p>
+						</blockquote>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--引入公共底文件-->
+<?php include ADMIN_COMMON_PATH.'/footer.html';?>
+<script>
+layui.use('adminrepair');
+</script>
