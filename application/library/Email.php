@@ -1950,7 +1950,7 @@ class Email {
 		$ssl = ($this->smtp_crypto === 'ssl') ? 'ssl://' : '';
 
 		$this->_smtp_connect = fsockopen($ssl.$this->smtp_host,
-							$this->smtp_port,
+							(int)$this->smtp_port,
 							$errno,
 							$errstr,
 							$this->smtp_timeout);
