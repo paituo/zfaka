@@ -9,12 +9,19 @@ layui.define(['layer', 'table','form'], function(exports){
 		url: '/'+ADMIN_DIR+'/setting/ajax',
 		page: true,
 		cellMinWidth:60,
+		even:true,
+		skin:'line',
+		// autoSort:true,
+		// initSort:{
+		// 	field: 'name' //排序字段，对应 cols 设定的各字段名
+		// 	,type: 'asc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
+		// },
 		cols: [[
 			{field: 'id', title: 'ID', width:80},
-			{field: 'name', title: '参数'},
+			{field: 'name', title: '参数', sort:true },
 			{field: 'tag', title: '说明'},
 			{field: 'updatetime', title: '更新时间', width:200, templet: '#updatetime',align:'center'},
-			{field: 'opt', title: '操作', width:200, templet: '#opt',align:'center'}
+			{field: 'opt', title: '操作', width:100, templet: '#opt',align:'center'}
 		]]
 	});
 
