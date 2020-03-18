@@ -6,6 +6,7 @@
  * @author Gregwar <g.passault@gmail.com>
  * @author Jeremy Livingston <jeremy.j.livingston@gmail.com>
  */
+
 namespace Captcha;
 class Captcha
 {
@@ -127,13 +128,13 @@ class Captcha
     public function __construct($phrase = null)
     {
         if ($phrase === null) {
-		   $phrase=$this->buildPhrase();    
+            $phrase = $this->buildPhrase();
         }
 
         $this->phrase = $phrase;
     }
 
-	public function buildPhrase($length = 4, $charset = 'abcdefghijklmnpqrstuvwxyz123456789')
+    public function buildPhrase($length = 4, $charset = 'abcdefghijklmnpqrstuvwxyz123456789')
     {
         $phrase = '';
         $chars = str_split($charset);
@@ -143,12 +144,13 @@ class Captcha
         }
         return $phrase;
     }
+
     /**
      * Setting the phrase
      */
     public function setPhrase($phrase)
     {
-        $this->phrase = (string) $phrase;
+        $this->phrase = (string)$phrase;
     }
 
     /**
@@ -156,7 +158,7 @@ class Captcha
      */
     public function setDistortion($distortion)
     {
-        $this->distortion = (bool) $distortion;
+        $this->distortion = (bool)$distortion;
 
         return $this;
     }
@@ -196,6 +198,7 @@ class Captcha
     {
         return $this->phrase;
     }
+
     /**
      * Returns true if the given phrase is good
      */
@@ -203,6 +206,7 @@ class Captcha
     {
         return ($this->niceize($phrase) == $this->niceize($this->getPhrase()));
     }
+
     public function niceize($str)
     {
         return strtr(strtolower($str), '01', 'ol');
@@ -269,15 +273,15 @@ class Captcha
         }
 
         if ($this->rand(0, 1)) { // Horizontal
-            $Xa   = $this->rand(0, $width/2);
-            $Ya   = $this->rand(0, $height);
-            $Xb   = $this->rand($width/2, $width);
-            $Yb   = $this->rand(0, $height);
+            $Xa = $this->rand(0, $width / 2);
+            $Ya = $this->rand(0, $height);
+            $Xb = $this->rand($width / 2, $width);
+            $Yb = $this->rand(0, $height);
         } else { // Vertical
-            $Xa   = $this->rand(0, $width);
-            $Ya   = $this->rand(0, $height/2);
-            $Xb   = $this->rand(0, $width);
-            $Yb   = $this->rand($height/2, $height);
+            $Xa = $this->rand(0, $width);
+            $Ya = $this->rand(0, $height / 2);
+            $Xb = $this->rand(0, $width);
+            $Yb = $this->rand($height / 2, $height);
         }
         imagesetthickness($image, $this->rand(1, 3));
         imageline($image, $Xa, $Ya, $Xb, $Yb, $tcol);
@@ -341,7 +345,7 @@ class Captcha
         $col = imagecolorallocate($image, $textColor[0], $textColor[1], $textColor[2]);
 
         // Write the letters one by one, with random angle
-        for ($i=0; $i<$length; $i++) {
+        for ($i = 0; $i < $length; $i++) {
             $box = imagettfbbox($size, 0, $font, $phrase[$i]);
             $w = $box[2] - $box[0];
             $angle = $this->rand(-$this->maxAngle, $this->maxAngle);
@@ -390,6 +394,7 @@ class Captcha
      */
     public function build($width = 150, $height = 40, $font = null, $fingerprint = null)
     {
+        $background = null;
         if (null !== $fingerprint) {
             $this->fingerprint = $fingerprint;
             $this->useFingerprint = true;
@@ -399,21 +404,21 @@ class Captcha
         }
 
         if ($font === null) {
-            $font = LIB_PATH . '/Captcha/font/captcha'.$this->rand(0, 11).'.ttf';
+            $font = LIB_PATH . '/Captcha/font/captcha' . $this->rand(0, 11) . '.ttf';
         }
-        if ($this->backgroundImages===null) {
-           $this->backgroundImages= LIB_PATH . '/Captcha/backgrounds/'.$this->rand(1,12).'.png';
+        if ($this->backgroundImages === null) {
+            $this->backgroundImages = LIB_PATH . '/Captcha/backgrounds/' . $this->rand(1, 12) . '.png';
         }
-        if ($this->backgroundImages===null) {
+        if ($this->backgroundImages === null) {
             // if background images list is not set, use a color fill as a background
-			$image  = imagecreatetruecolor($width, $height);
+            $image = imagecreatetruecolor($width, $height);
             if ($this->backgroundColor == null) {
                 $bg = imagecolorallocate($image, $this->rand(200, 255), $this->rand(200, 255), $this->rand(200, 255));
             } else {
                 $color = $this->backgroundColor;
                 $bg = imagecolorallocate($image, $color[0], $color[1], $color[2]);
             }
-            $this->background = $bg;
+            $background = $bg;
             imagefill($image, 0, 0, $bg);
         } else {
             // use a random background image
@@ -425,7 +430,7 @@ class Captcha
         // Apply effects
         if (!$this->ignoreAllEffects) {
             $square = $width * $height;
-            $effects = $this->rand($square/3000, $square/2000);
+            $effects = $this->rand($square / 3000, $square / 2000);
 
             // set the maximum number of lines to draw in front of the text
             if ($this->maxBehindLines != null && $this->maxBehindLines > 0) {
@@ -445,7 +450,7 @@ class Captcha
         // Apply effects
         if (!$this->ignoreAllEffects) {
             $square = $width * $height;
-            $effects = $this->rand($square/3000, $square/2000);
+            $effects = $this->rand($square / 3000, $square / 2000);
 
             // set the maximum number of lines to draw in front of the text
             if ($this->maxFrontLines != null && $this->maxFrontLines > 0) {
@@ -461,7 +466,7 @@ class Captcha
 
         // Distort the image
         if ($this->distortion && !$this->ignoreAllEffects) {
-            $image = $this->distort($image, $width, $height, $bg);
+            $image = $this->distort($image, $width, $height, $background);
         }
 
         // Post effects
@@ -480,10 +485,10 @@ class Captcha
     public function distort($image, $width, $height, $bg)
     {
         $contents = imagecreatetruecolor($width, $height);
-        $X          = $this->rand(0, $width);
-        $Y          = $this->rand(0, $height);
-        $phase      = $this->rand(0, 10);
-        $scale      = 1.1 + $this->rand(0, 10000) / 30000;
+        $X = $this->rand(0, $width);
+        $Y = $this->rand(0, $height);
+        $phase = $this->rand(0, 10);
+        $scale = 1.1 + $this->rand(0, 10000) / 30000;
         for ($x = 0; $x < $width; $x++) {
             for ($y = 0; $y < $height; $y++) {
                 $Vx = $x - $X;
@@ -492,8 +497,8 @@ class Captcha
 
                 if ($Vn != 0) {
                     $Vn2 = $Vn + 4 * sin($Vn / 30);
-                    $nX  = $X + ($Vx * $Vn2 / $Vn);
-                    $nY  = $Y + ($Vy * $Vn2 / $Vn);
+                    $nX = $X + ($Vx * $Vn2 / $Vn);
+                    $nY = $Y + ($Vy * $Vn2 / $Vn);
                 } else {
                     $nX = $X;
                     $nY = $Y;
@@ -618,15 +623,15 @@ class Captcha
 
         $m0 = $cx * $r0 + $x * $r1;
         $m1 = $cx * $r2 + $x * $r3;
-        $r  = (int) ($cy * $m0 + $y * $m1);
+        $r = (int)($cy * $m0 + $y * $m1);
 
         $m0 = $cx * $g0 + $x * $g1;
         $m1 = $cx * $g2 + $x * $g3;
-        $g  = (int) ($cy * $m0 + $y * $m1);
+        $g = (int)($cy * $m0 + $y * $m1);
 
         $m0 = $cx * $b0 + $x * $b1;
         $m1 = $cx * $b2 + $x * $b3;
-        $b  = (int) ($cy * $m0 + $y * $m1);
+        $b = (int)($cy * $m0 + $y * $m1);
 
         return ($r << 16) | ($g << 8) | $b;
     }
@@ -657,9 +662,9 @@ class Captcha
     protected function getRGB($col)
     {
         return array(
-            (int) ($col >> 16) & 0xff,
-            (int) ($col >> 8) & 0xff,
-            (int) ($col) & 0xff,
+            (int)($col >> 16) & 0xff,
+            (int)($col >> 8) & 0xff,
+            (int)($col) & 0xff,
         );
     }
 
@@ -675,19 +680,19 @@ class Captcha
         // check if file exists
         if (!file_exists($backgroundImage)) {
             $backgroundImageExploded = explode('/', $backgroundImage);
-            $imageFileName = count($backgroundImageExploded) > 1? $backgroundImageExploded[count($backgroundImageExploded)-1] : $backgroundImage;
+            $imageFileName = count($backgroundImageExploded) > 1 ? $backgroundImageExploded[count($backgroundImageExploded) - 1] : $backgroundImage;
 
             throw new \Exception('Invalid background image: ' . $imageFileName);
         }
 
         // check image type
-		return $imageType='image/png';
-		
+        return $imageType = 'image/png';
+
         $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
         $imageType = finfo_file($finfo, $backgroundImage);
         finfo_close($finfo);
 
-        if (!in_array ($imageType, $this->allowedBackgroundImageTypes)) {
+        if (!in_array($imageType, $this->allowedBackgroundImageTypes)) {
             throw new \Exception('Invalid background image type! Allowed types are: ' . join(', ', $this->allowedBackgroundImageTypes));
         }
 

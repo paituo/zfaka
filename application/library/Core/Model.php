@@ -212,7 +212,7 @@ abstract class Model {
 		// 无限 WHERE
 		if(isset($this->options['where'])){
 			// 是否是 OR
-			if($this->options['or']){
+			if(isset($this->options['or']) AND $this->options['or']){
 				$connector = ' OR ';
 				$this->options['or'] = FALSE;
 			}else{

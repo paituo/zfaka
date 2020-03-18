@@ -3,6 +3,13 @@ class Bootstrap extends \Yaf\Bootstrap_Abstract
 {
     public function _initCore()
 	{
+        //如果为开发环境,打开所有错误提示
+        if (\Yaf\ENVIRON === 'develop') {
+            error_reporting(E_ERROR | E_PARSE);//使用error_reporting来定义哪些级别错误可以触发//E_ERROR | E_WARNING | E_PARSE
+            ini_set('display_errors', 1);
+            ini_set('display_startup_errors', 1);
+        }
+
 		ini_set('yaf.library', LIB_PATH);
 		\Yaf\Loader::import(CORE_PATH.'/Helper.php');
         \Yaf\Loader::import(CORE_PATH.'/Basic.php');

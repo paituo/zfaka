@@ -11,12 +11,14 @@ if ( ! function_exists('getClientIP')){
 	function getClientIP(){
 		if(isset($_SERVER['HTTP_ALI_CDN_REAL_IP']) AND $_SERVER['HTTP_ALI_CDN_REAL_IP']){
 			$ip = $_SERVER["HTTP_ALI_CDN_REAL_IP"]; 
-		}elseif ($HTTP_SERVER_VARS["HTTP_X_FORWARDED_FOR"]) { 
-			$ip = $HTTP_SERVER_VARS["HTTP_X_FORWARDED_FOR"]; 
-		}elseif ($HTTP_SERVER_VARS["HTTP_CLIENT_IP"]) { 
-			$ip = $HTTP_SERVER_VARS["HTTP_CLIENT_IP"]; 
-		}elseif ($HTTP_SERVER_VARS["REMOTE_ADDR"]) { 
-			$ip = $HTTP_SERVER_VARS["REMOTE_ADDR"]; 
+		}elseif (isset($HTTP_SERVER_VARS)){
+		    if($HTTP_SERVER_VARS["HTTP_X_FORWARDED_FOR"]) {
+            $ip = $HTTP_SERVER_VARS["HTTP_X_FORWARDED_FOR"];
+            }elseif ($HTTP_SERVER_VARS["HTTP_CLIENT_IP"]) {
+                $ip = $HTTP_SERVER_VARS["HTTP_CLIENT_IP"];
+            }elseif ($HTTP_SERVER_VARS["REMOTE_ADDR"]) {
+                $ip = $HTTP_SERVER_VARS["REMOTE_ADDR"];
+            }
 		}elseif (getenv("HTTP_X_FORWARDED_FOR")) { 
 			$ip = getenv("HTTP_X_FORWARDED_FOR"); 
 		}elseif (getenv("HTTP_CLIENT_IP")) { 
